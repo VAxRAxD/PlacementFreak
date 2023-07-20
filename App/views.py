@@ -48,6 +48,26 @@ def experience(request,year,company):
     return render(request,'App/experience.html',context=context)
 
 @unauthenticated_user
+def signUp(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method=='POST':
+            email=request.POST.get('email')
+            paswd=request.POST.get('passwd')
+            re_passwd=request.POST.get('repasswd')
+            if paswd==re_passwd:
+                user=authenticate(request,email=email,password=paswd)
+                if user is None:
+                    user=User.objects.create_user(
+                        username=generateUserName(),
+                        email=email,
+                        password=paswd
+                    )
+                    login(request,user)
+                    return redirect('home')
+    return render(request,'App/register.html')  
+
+@unauthenticated_user
 def signIn(request):
     if request.user.is_authenticated:
         return redirect('home')
