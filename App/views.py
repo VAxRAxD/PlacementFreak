@@ -9,6 +9,12 @@ def generateUserName():
     if response.status_code == 200:
         return response.json()['username']
     
+def generateUserAvatar(username):
+    url = f"https://robohash.org/{username}.png"
+    response = requests.get(url)
+    with open("image.jpg", "wb") as f:
+        f.write(response.content)
+    
 def unauthenticated_user(view_func):
 	def wrapper_func(request, *args, **kwargs):
 		if request.user.is_authenticated:
