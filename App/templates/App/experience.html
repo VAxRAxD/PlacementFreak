@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placemet Freak - SFIT</title>
+</head>
+<body>
+    {% for exp in data %}
+        <p>{{ exp.user.username }}</p>
+        <p>{{ exp.company.name }}</p>
+        <p>{{ exp.batch.name }}</p>
+        <p>{{ exp.message}}</p>
+        <p>Selected : {{ exp.selected }}</p>
+        <p>Difficulty : {{ exp.difficulty }}</p>
+        {% if exp.package %}
+        <p>Package : {{ exp.package }}</p>
+        {% endif %}
+        <br>
+    {% endfor %}
+</body>
+</html>
