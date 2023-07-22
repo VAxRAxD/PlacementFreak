@@ -1,0 +1,4 @@
+django
+django-storages
+django-environ
+pillow

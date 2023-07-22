@@ -1,28 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-import requests
 from . models import *
+from . helper import *
 
-def generateUserName():
-    response = requests.get('https://api.api-ninjas.com/v1/randomuser', headers={'X-Api-Key': 'LceLcBA8r2YMy0aBsaw2Uw==8tGk7QJr0FZefb9L'})
-    if response.status_code == 200:
-        return response.json()['username']
+from django.conf import settings as django_settings
     
-def generateUserAvatar(username):
-    url = f"https://robohash.org/{username}.png"
-    response = requests.get(url)
-    with open("image.jpg", "wb") as f:
-        f.write(response.content)
-    
-def unauthenticated_user(view_func):
-	def wrapper_func(request, *args, **kwargs):
-		if request.user.is_authenticated:
-			return redirect('home')
-		else:
-			return view_func(request, *args, **kwargs)
-	return wrapper_func
-
 @login_required(login_url='sigin')
 def home(request):
     batches=Batch.objects.all()
@@ -30,6 +13,8 @@ def home(request):
     for batch in batches:
         data.append({'name':batch.name})
     context={'data':data}
+    print(django_settings.MEDIA_URL)
+    print("Hello")
     return render(request,'App/home.html',context=context)
 
 @login_required(login_url='sigin')
@@ -67,8 +52,11 @@ def signUp(request):
                     user=User.objects.create_user(
                         username=generateUserName(),
                         email=email,
-                        password=paswd
+                        password=paswd,
                     )
+                    img=generateUserAvatar(user.username)
+                    user.profile.save(f"media/{user.id}.png",img,save=True)
+                    user.save()
                     login(request,user)
                     return redirect('home')
     return render(request,'App/register.html')  
