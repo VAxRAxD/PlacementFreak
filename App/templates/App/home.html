@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ favicon_path }}">
     <title>Placemet Freak - SFIT</title>
     <style>
         img {
@@ -16,12 +17,12 @@
     </style>
 </head>
 <body>
-    {% for year in data %}
-        <a href="{% url 'company' year.name %}">{{ year.name }}</a>
+    {% for comp in data %}
+        <a href="{% url 'company' comp.name %}">{{ comp.name }}</a>
     {% endfor %}
     <a href="{% url 'logout' %}">Logout</a>
+    <br>
     <img src="{{ request.user.profile.url }}">
-    <p>{{ request.user.id }}</p>
     <span>Hello {{ request.user.username }}</span>
 </body>
 </html>

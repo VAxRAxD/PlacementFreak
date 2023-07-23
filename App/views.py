@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
@@ -8,30 +8,34 @@ from django.conf import settings as django_settings
     
 @login_required(login_url='sigin')
 def home(request):
-    batches=Batch.objects.all()
+    companies=Company.objects.all()
     data=list()
-    for batch in batches:
-        data.append({'name':batch.name})
+    for comp in companies:
+        data.append(comp)
+    # batches=Batch.objects.all()
+    # data=list()
+    # for batch in batches:
+    #     data.append({'name':batch.name})
     context={'data':data}
     return render(request,'App/home.html',context=context)
 
 @login_required(login_url='sigin')
-def companies(request,year):
-    companies=Company.objects.all()
+def companies(request,name):
+    comp=Company.objects.get(name=name)
+    batches=comp.batches.all()
     data=list()
-    for company in companies:
-        for batch in company.batches.all():
-            if batch.name==year:
-                data.append({'name':company.name})
-    context={'data':data, 'year':year}
+    for batch in batches:
+        data.append(batch)
+    print(data)
+    context={'data':data, 'comp':comp}
     return render(request,'App/company.html',context=context)
 
 @login_required(login_url='signin')
-def experience(request,year,company):
+def experience(request,name,year):
     experience=Experience.objects.all()
     data=list()
     for exp in experience:
-        if exp.company.name==company and exp.batch.name==year:
+        if exp.company.name==name and exp.batch.name==year:
             data.append(exp)
     context={'data':data}
     return render(request,'App/experience.html',context=context)

@@ -1,13 +1,17 @@
+{% load static%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'pl.ico' %}">
+
     <title>Placemet Freak - SFIT</title>
 </head>
 <body>
-    {% for company in data %}
-        <a href="{% url 'experience' year company.name %}">{{ company.name }}</a>
+    {% for year in data %}
+        <a href="{% url 'experience' comp.name year.name %}">{{ year.name|add:"-1" }}-{{ year.name }}</a>
     {% endfor %}
 </body>
 </html>

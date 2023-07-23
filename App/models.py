@@ -14,10 +14,10 @@ class User(AbstractUser):
         return self.username
     
 class Batch(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return str(self.name-1)+"-"+str(self.name)
     
 class Company(models.Model):
     name = models.CharField(max_length=200)

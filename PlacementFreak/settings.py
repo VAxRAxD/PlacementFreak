@@ -56,21 +56,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'PlacementFreak.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                    'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
 
 WSGI_APPLICATION = 'PlacementFreak.wsgi.application'
 
@@ -102,6 +87,29 @@ STATICFILES_DIRS = [
 ]
 DEFAULT_FILE_STORAGE = 'PlacementFreak.storage.MediaStorage'
 STATICFILES_STORAGE = 'PlacementFreak.storage.StaticStorage'
+
+
+FAVICON_PATH = STATIC_URL+'pf.ico'
+def favicon(request):
+    return {'favicon_path': FAVICON_PATH}
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'PlacementFreak.settings.favicon',
+            ],
+        },
+    },
+]
 
 
 AUTH_USER_MODEL = 'App.User'
