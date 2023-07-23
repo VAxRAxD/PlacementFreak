@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from PlacementFreak.storage import MediaStorage 
 
 class User(AbstractUser):
     username = models.CharField(max_length=200)

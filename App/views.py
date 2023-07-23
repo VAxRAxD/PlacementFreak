@@ -13,8 +13,6 @@ def home(request):
     for batch in batches:
         data.append({'name':batch.name})
     context={'data':data}
-    print(django_settings.MEDIA_URL)
-    print("Hello")
     return render(request,'App/home.html',context=context)
 
 @login_required(login_url='sigin')
@@ -55,7 +53,7 @@ def signUp(request):
                         password=paswd,
                     )
                     img=generateUserAvatar(user.username)
-                    user.profile.save(f"media/{user.id}.png",img,save=True)
+                    user.profile.save(f"{user.id}.png",img,save=True)
                     user.save()
                     login(request,user)
                     return redirect('home')
