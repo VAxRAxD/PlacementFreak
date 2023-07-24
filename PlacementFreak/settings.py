@@ -85,7 +85,7 @@ STATIC_URL=f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-DEFAULT_FILE_STORAGE = 'PlacementFreak.storage.MediaStorage'
+DEFAULT_FILE_STORAGE = 'PlacementFreak.storage.FileStorage'
 STATICFILES_STORAGE = 'PlacementFreak.storage.StaticStorage'
 
 

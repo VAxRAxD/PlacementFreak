@@ -3,9 +3,17 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-class MediaStorage(S3Boto3Storage):
+class UserMediaStorage(S3Boto3Storage):
     bucket_name = env('AWS_STORAGE_BUCKET_NAME')
-    location = env('AWS_MEDIA_ROOT')
+    location = env('AWS_USER_MEDIA_ROOT')
+    
+class CompMediaStorage(S3Boto3Storage):
+    bucket_name = env('AWS_STORAGE_BUCKET_NAME')
+    location = env('AWS_COMP_MEDIA_ROOT')
+    
+class FileStorage(S3Boto3Storage):
+    bucket_name = env('AWS_STORAGE_BUCKET_NAME')
+    location = env('AWS_FILE_ROOT')
     
 class StaticStorage(S3Boto3Storage):
     bucket_name = env('AWS_STORAGE_BUCKET_NAME')
