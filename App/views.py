@@ -31,7 +31,7 @@ def experience(request,name,year):
     experience=Experience.objects.all()
     data=list()
     for exp in experience:
-        if exp.company.name==name and exp.batch.name==year:
+        if exp.company.name==name and exp.batch.name==year and exp.verified=="Yes":
             data.append(exp)
     context={'data':data}
     return render(request,'App/experience.html',context=context)
