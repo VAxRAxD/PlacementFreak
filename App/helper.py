@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.conf import settings as django_settings
+from django.http import HttpResponseForbidden
 from django.core.files.base import ContentFile
 import requests
 
@@ -19,3 +19,10 @@ def unauthenticated_user(view_func):
 		else:
 			return view_func(request, *args, **kwargs)
 	return wrapper_func
+
+def superuser_required(view_func):
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden("You are not authorized to access this page.")
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view

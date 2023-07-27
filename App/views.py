@@ -3,8 +3,6 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
 from . helper import *
-
-from django.conf import settings as django_settings
     
 @login_required(login_url='sigin')
 def home(request):
@@ -31,10 +29,28 @@ def experience(request,name,year):
     experience=Experience.objects.all()
     data=list()
     for exp in experience:
-        if exp.company.name==name and exp.batch.name==year and exp.verified=="Yes":
+        if exp.company.name==name and exp.batch.name==year:
             data.append(exp)
-    context={'data':data}
+    context={'data':data,'condition':'Yes'}
     return render(request,'App/experience.html',context=context)
+
+@login_required(login_url='signin')
+@superuser_required
+def unverified(request):
+    experience=Experience.objects.all()
+    data=list()
+    for exp in experience:
+        if exp.verified=="No":
+            data.append(exp)
+    context={'data':data,'condition':'No'}
+    return render(request,'App/experience.html',context=context)
+
+@superuser_required
+def verify(request,id):
+    experience=Experience.objects.get(id=id)
+    experience.verified='Yes'
+    experience.save()
+    return redirect('unverified')
 
 @unauthenticated_user
 def signUp(request):

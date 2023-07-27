@@ -40,13 +40,4 @@ class Experience(models.Model):
     package = models.FloatField(null=True,blank=True)
 
     def __str__(self):
-        return self.user.username+" "+self.company.name+" "+self.batch.name
-    
-class Referals(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    company=models.CharField(max_length=100, null=True)
-    role=models.CharField(max_length=50, null=True)
-    description=models.TextField()
-    
-    def __str__(self):
-        return self.user.username+"'s referral for "+self.company.name
+        return self.user.username+" "+self.company.name+" "+str(self.batch.name)
