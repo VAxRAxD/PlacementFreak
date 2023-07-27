@@ -30,7 +30,8 @@ class Experience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    message = models.TextField()
+    message = models.TextField(max_length=500)
+    verified=models.CharField(max_length=10,default="No")
     selected = models.CharField(max_length=100, choices=(
         ('Yes', 'Yes'), ('No', 'No'), ('Response Awaited', 'Response Awaited')))
     difficulty = models.CharField(max_length=100, choices=(

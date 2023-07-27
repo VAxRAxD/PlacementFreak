@@ -12,10 +12,6 @@ def home(request):
     data=list()
     for comp in companies:
         data.append(comp)
-    # batches=Batch.objects.all()
-    # data=list()
-    # for batch in batches:
-    #     data.append({'name':batch.name})
     context={'data':data}
     return render(request,'App/home.html',context=context)
 
