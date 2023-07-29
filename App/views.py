@@ -3,6 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
 from . helper import *
+from . forms import *
     
 @login_required(login_url='sigin')
 def home(request):
@@ -92,3 +93,49 @@ def signIn(request):
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+@superuser_required
+def exp_add(request):
+    form = experienceForm()
+    if request.method == "POST":
+        form = experienceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            current_year = str(form.cleaned_data['batch'])
+            company = form.cleaned_data['company']
+            return redirect('experience', name=company, year=current_year[5:])
+            
+            # return redirect(f'exp/{company}/{year[5:]}/')
+    context = {"form": form}
+    return render(request, "App/experience_crud.html", context)
+
+@superuser_required
+def exp_update(request, pk):
+    experience = Experience.objects.get(id=pk)
+    form = experienceForm(instance=experience)
+    if request.method == "POST":
+        form = experienceForm(request.POST, instance=experience)
+        if form.is_valid():
+            form.save()
+            current_year = str(form.cleaned_data['batch'])
+            company = form.cleaned_data['company']
+            return redirect('experience', name=company, year=current_year[5:])
+    context = {"form": form, "experience": experience}
+    return render(request, "App/experience_crud.html", context)
+
+@superuser_required   
+def exp_delete(request, pk):
+    experience = Experience.objects.get(id=pk)
+    # current_year = experience.batch.name
+    # company = experience.company.name
+    
+    if request.method == "POST":
+        current_year = str(experience.batch.name)
+        company = experience.company.name
+        # print(type(current_year), company )
+        experience.delete()
+        # print("fefafagagag")
+        # print(current_year, company)
+        return redirect('experience', name=company, year=str(current_year))
+    context = {"experience":experience}
+    return render(request, "App/delete.html", context)

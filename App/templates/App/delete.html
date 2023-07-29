@@ -1,0 +1,7 @@
+<p>you wanna delete "{{experience.user}} "</p>
+
+<form action="{% url 'exp_delete' experience.id %}", method="POST">
+  {% csrf_token %}
+  <a href="">Cancel</a>
+  <input type="submit" name="Confirm">
+</form>
