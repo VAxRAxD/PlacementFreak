@@ -9,13 +9,12 @@
     <title>Placemet Freak - SFIT</title>
 </head>
 <body>
-    <a href="{% url 'exp_add' %}">Add</a>
+    <a href="{% url 'exp_add' id %}">Add</a>
     
     {% for exp in data %}
         {% if exp.verified == condition %}
             <a href="{% url 'exp_update' exp.id %}">Update</a>
             <a href="{% url 'exp_delete' exp.id %}">Delete</a>
-            <p>{{ exp.id }}</p>
             <p>{{ exp.user.username }}</p>
             <p>{{ exp.company.name }}</p>
             <p>{{ exp.batch.name }}</p>

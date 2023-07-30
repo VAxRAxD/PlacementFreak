@@ -20,7 +20,6 @@
     {% for comp in data %}
         <a href="{% url 'company' comp.name %}">{{ comp.name }}</a>
     {% endfor %}
-    <a href="{% url 'exp_add' %}">Add</a>
     
     <a href="{% url 'logout' %}">Logout</a>
     <br>

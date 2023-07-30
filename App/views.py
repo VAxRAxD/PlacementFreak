@@ -29,10 +29,11 @@ def companies(request,name):
 def experience(request,name,year):
     experience=Experience.objects.all()
     data=list()
+    company = Company.objects.get(name=name)
     for exp in experience:
         if exp.company.name==name and exp.batch.name==year:
             data.append(exp)
-    context={'data':data,'condition':'Yes'}
+    context={'data':data,'condition':'Yes', 'id':company.id}
     return render(request,'App/experience.html',context=context)
 
 @login_required(login_url='signin')
@@ -95,8 +96,9 @@ def logoutUser(request):
     return redirect('home')
 
 @superuser_required
-def exp_add(request):
-    form = experienceForm()
+def exp_add(request,pk):
+    company = Company.objects.get(id=pk)
+    form = experienceForm(initial={'company':company})
     if request.method == "POST":
         form = experienceForm(request.POST)
         if form.is_valid():
@@ -104,9 +106,8 @@ def exp_add(request):
             current_year = str(form.cleaned_data['batch'])
             company = form.cleaned_data['company']
             return redirect('experience', name=company, year=current_year[5:])
-            
             # return redirect(f'exp/{company}/{year[5:]}/')
-    context = {"form": form}
+    context = {"form": form, "experience": experience}
     return render(request, "App/experience_crud.html", context)
 
 @superuser_required
