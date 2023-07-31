@@ -1,28 +1,13 @@
-{% load static%}
+{% extends "App/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ favicon_path }}">
-    <title>Placemet Freak - SFIT</title>
-    <style>
-        img {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
-    </style>
-</head>
-<body>
-    {% for comp in data %}
-        <a href="{% url 'company' comp.name %}">{{ comp.name }}</a>
-    {% endfor %}
-    <a href="{% url 'logout' %}">Logout</a>
-    <br>
-    <img src="{{ request.user.profile.url }}">
-    <span>Hello {{ request.user.username }}</span>
-</body>
-</html>
+<div>
+  {% load static%} {% block content %} {% for comp in data %}
+  <a href="{% url 'company' comp.name %}">{{ comp.name }}</a>
+  {% endfor %}
+  <a href="{% url 'logout' %}">Logout</a>
+  <br />
+  <img src="{{ request.user.profile.url }}" />
+  <span>Hello {{ request.user.username }}</span>
+</div>
+
+{% endblock %}

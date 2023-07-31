@@ -3,6 +3,10 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
 from . helper import *
+
+
+def landingPage(request):
+    return render(request,'App/landing.html')
     
 @login_required(login_url='sigin')
 def home(request):
@@ -91,4 +95,4 @@ def signIn(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('home')
+    return redirect('landing')
